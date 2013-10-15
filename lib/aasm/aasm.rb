@@ -156,6 +156,8 @@ private
 
       if new_state_name = event.fire(self, *args)
         fired(event, old_state, new_state_name, options, &block)
+      if new_state_name = event.fire(self, nil, *args)
+        fired(event, old_state, new_state_name, options)
       else
         failed(event_name, old_state)
       end
