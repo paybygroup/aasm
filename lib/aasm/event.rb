@@ -105,7 +105,7 @@ module AASM
             result = true
           else
             result = to_state || Array(transition.to).first
-            transition.execute(obj, *args)
+            result = false unless transition.execute(obj, *args)
           end
 
           break
