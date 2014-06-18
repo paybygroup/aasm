@@ -25,8 +25,8 @@ module AASM
     end
 
     def execute(obj, *args)
-      @on_transition.is_a?(Array) ?
-              @on_transition.each {|ot| _execute(obj, ot, *args)} :
+      @on_transition.is_a?(Array) && @on_transition.any? ?
+              @on_transition.all? {|ot| _execute(obj, ot, *args)} :
               _execute(obj, @on_transition, *args)
     end
 
@@ -49,6 +49,8 @@ module AASM
         on_transition.arity == 0 ? on_transition.call : on_transition.call(obj, *args)
       when Symbol, String
         obj.send(:method, on_transition.to_sym).arity == 0 ? obj.send(on_transition) : obj.send(on_transition, *args)
+      else
+        true
       end
     end
 
